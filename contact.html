@@ -140,16 +140,15 @@
               <div class="user-items ps-5">
                 <ul class="d-flex justify-content-end list-unstyled m-0">
                   <li>
-                   <a href="cart.html" class="position-relative me-3">
-  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#18633F" viewBox="0 0 24 24">
-    <path d="M7 4h-2l-3 9v11h22v-11l-3-9h-2l2.25 7h-16.5l2.25-7zm-2 16c0 1.104.896 2 2 2s2-.896 2-2-.896-2-2-2-2 .896-2 2zm10 0c0 1.104.896 2 2 2s2-.896 2-2-.896-2-2-2-2 .896-2 2z"/>
-  </svg>
-  <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.75rem;">
-    0
-  </span>
-</a>
-
-                  </li>
+  <a href="cart.html" class="position-relative me-3">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#18633F" viewBox="0 0 24 24">
+      <path d="M7 4h-2l-3 9v11h22v-11l-3-9h-2l2.25 7h-16.5l2.25-7zm-2 16c0 1.104.896 2 2 2s2-.896 2-2-.896-2-2-2-2 .896-2 2zm10 0c0 1.104.896 2 2 2s2-.896 2-2-.896-2-2-2-2 .896-2 2z"/>
+    </svg>
+    <span class="cart-count position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.75rem;">
+      0
+    </span>
+  </a>
+</li>
                 </ul>
               </div>
             </li>
@@ -288,7 +287,45 @@
 
     <hr class="my-4 border-dark opacity-25">
 
-    <!-- Floating WhatsApp Button (Right Side) -->
+<!-- Floating Cart Button -->
+<a href="cart.html"
+   style="
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      background-color: white;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      z-index: 9999;
+      text-decoration: none;
+   "
+   title="View Cart">
+   <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#18633F" viewBox="0 0 24 24">
+      <path d="M7 4h-2l-3 9v11h22v-11l-3-9h-2l2.25 7h-16.5l2.25-7zm-2 16c0 1.104.896 2 
+      2 2s2-.896 2-2-.896-2-2-2-2 .896-2 2zm10 0c0 1.104.896 2 
+      2s2-.896 2-2-.896-2-2-2-2 .896-2 2z"/>
+   </svg>
+   <span class="cart-count"
+         style="
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: red;
+            color: white;
+            font-size: 0.75rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+         ">
+      0
+   </span>
+</a>
+
+<!-- Floating WhatsApp Button -->
 <a href="https://wa.me/919876543210?text=Hi,%20I%20would%20like%20to%20know%20more%20about%20your%20products."
    target="_blank"
    style="
@@ -405,14 +442,15 @@
   AOS.init();
   const lightbox = GLightbox({ selector: '.glightbox' });
 </script>
+
 <script>
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
   function updateCartCount() {
-    const count = cart.reduce((total, item) => total + item.quantity, 0);
-    const badge = document.getElementById("cart-count");
-    if (badge) badge.innerText = count;
-  }
+  const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+  document.querySelectorAll(".cart-count").forEach(el => el.innerText = totalQty);
+}
+
 
   function addToCart(name, price, img) {
     const existingItem = cart.find(item => item.name === name);
@@ -423,8 +461,6 @@
     }
     localStorage.setItem("cart", JSON.stringify(cart));
     updateCartCount();
-
-    // Optional toast message
     showToast(`${name} added to cart!`);
   }
 
@@ -441,12 +477,10 @@
     toast.style.boxShadow = "0 4px 10px rgba(0,0,0,0.2)";
     toast.style.zIndex = "1000";
     document.body.appendChild(toast);
-
-    setTimeout(() => {
-      toast.remove();
-    }, 2000);
+    setTimeout(() => toast.remove(), 2000);
   }
 
+  // Initialize on page load
   updateCartCount();
 </script>
 
