@@ -362,6 +362,135 @@
     </div>
   </div>
 </footer>
+<script src="js/jquery-1.11.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="js/plugins.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
+    <script>
+  var testimonialSwiper = new Swiper('.testimonial-swiper', {
+    loop: true,
+    autoplay: {
+      delay: 5000, // Change slide every 5 seconds
+      disableOnInteraction: false
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true
+    }
+  });
+</script>
+<!-- Swiper JS & initialization -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+<script>
+  const swiper = new Swiper('.main-swiper', {
+    loop: true,
+    navigation: {
+      nextEl: '.swiper-arrow-next',
+      prevEl: '.swiper-arrow-prev',
+    },
+    autoplay: {
+      delay: 3000,
+      disableOnInteraction: false,
+    },
+    speed: 500,
+  });
+</script>
+<script>
+  function animateFacts() {
+    const factBoxes = document.querySelectorAll('.fact-box');
+    const triggerBottom = window.innerHeight * 0.9;
+
+    factBoxes.forEach(box => {
+      const boxTop = box.getBoundingClientRect().top;
+
+      if (boxTop < triggerBottom) {
+        box.classList.add('visible');
+      } else {
+        box.classList.remove('visible');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', animateFacts);
+  window.addEventListener('load', animateFacts);
+</script>
+<script>
+  function revealOnScroll() {
+    const leftElems = document.querySelectorAll('.fade-in-left');
+    const rightElems = document.querySelectorAll('.fade-in-right');
+    const triggerBottom = window.innerHeight * 0.85;
+
+    leftElems.forEach(elem => {
+      const elemTop = elem.getBoundingClientRect().top;
+      if (elemTop < triggerBottom) {
+        elem.classList.add('visible');
+      }
+    });
+
+    rightElems.forEach(elem => {
+      const elemTop = elem.getBoundingClientRect().top;
+      if (elemTop < triggerBottom) {
+        elem.classList.add('visible');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', revealOnScroll);
+  window.addEventListener('load', revealOnScroll);
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init();
+  const lightbox = GLightbox({ selector: '.glightbox' });
+</script>
+<script>
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  function updateCartCount() {
+  const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+  document.querySelectorAll(".cart-count").forEach(el => el.innerText = totalQty);
+}
+
+
+  function addToCart(name, price, img) {
+    const existingItem = cart.find(item => item.name === name);
+    if (existingItem) {
+      existingItem.quantity++;
+    } else {
+      cart.push({ name, price, img, quantity: 1 });
+    }
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCartCount();
+    showToast(`${name} added to cart!`);
+  }
+
+  function showToast(message) {
+    let toast = document.createElement("div");
+    toast.innerText = message;
+    toast.style.position = "fixed";
+    toast.style.bottom = "20px";
+    toast.style.right = "20px";
+    toast.style.background = "#18633F";
+    toast.style.color = "white";
+    toast.style.padding = "10px 15px";
+    toast.style.borderRadius = "8px";
+    toast.style.boxShadow = "0 4px 10px rgba(0,0,0,0.2)";
+    toast.style.zIndex = "1000";
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2000);
+  }
+
+  // Initialize on page load
+  updateCartCount();
+</script>
+
+
+
+  </body>
+</html>
 
 
 </body>
